@@ -41,8 +41,14 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "drf_yasg",
     "pharma",
 ]
+
+
+# Optional settings for JWT, e.g., token expiration time
+
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

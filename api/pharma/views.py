@@ -1,11 +1,11 @@
-from .models import Customer, Medicine, Supplier, Inventory, Prescription
-from .serializers import CustomerSerializer, MedicineSerializer,SupplierSerializer, InventorySerializer,PrescriptionSerializer
-
 # Create your views here.
 from rest_framework import viewsets
 from .models import Customer, Medicine, Supplier, Inventory, Prescription
 from .serializers import CustomerSerializer, MedicineSerializer, SupplierSerializer, InventorySerializer, PrescriptionSerializer
+# from rest_framework.permissions import IsAuthenticated
+# from rest_framework.decorators import permission_classes
 
+# @permission_classes(IsAuthenticated)
 class CustomerViewSet(viewsets.ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
