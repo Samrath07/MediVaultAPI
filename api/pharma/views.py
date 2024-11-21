@@ -106,9 +106,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Wholesaler, Retailer, Inventory, Medicine, Order, OrderLine,InventoryMedicine
-from .serializers import InventorySerializer, OrderSerializer, WholesalerSerializer,InventoryMedicineSerializer,MedicineSerializer
+from .serializers import InventorySerializer, OrderSerializer, WholesalerRegistrationSerializer,InventoryMedicineSerializer,MedicineSerializer,WholesalerSerializer
 from django.db import transaction
 from django.shortcuts import get_object_or_404
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 
 
 class InventoryView(APIView):
@@ -201,16 +203,30 @@ class WholesalerInventoryView(APIView):
             return Response({"error": "Medicine not found in inventory"}, status=status.HTTP_404_NOT_FOUND)
 
 class WholesalerListView(APIView):
-    def get(self, request):
-        wholesalers = Wholesaler.objects.all()
-        serializer = WholesalerSerializer(wholesalers, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    
+        def get(self, request):
+            try:
+                wholesalers = Wholesaler.objects.all()
+                serializer = WholesalerSerializer(wholesalers, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except Wholesaler.DoesNotExist:
+                return Response({"error": "Wholesaler not found"}, status=status.HTTP_404_NOT_FOUND)
+
+class WholesalerRegistrationView(APIView):
+    @swagger_auto_schema(
+        request_body=WholesalerRegistrationSerializer,
+        responses={201: "Wholesaler registered successfully", 400: "Bad Request"},
+        operation_description="Register a new wholesaler with associated user account.",
+    )
+    def post(self, request):
+        serializer = WholesalerRegistrationSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Wholesaler registered successfully!"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class MedicineListView(APIView):
     def get(self, request, wholesaler_id):
-        """View all medicines available with the wholesaler."""
         try:
             wholesaler = Wholesaler.objects.get(id=wholesaler_id)
             inventory = Inventory.objects.get(wholesaler=wholesaler)

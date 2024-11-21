@@ -69,13 +69,13 @@ from django.db import models
 from authentication.models import CustomUser
 
 class Wholesaler(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='wholesaler')
-    name = models.CharField(max_length=100)
-    contact_number = models.CharField(max_length=15)
-    address = models.TextField()
+    wholesaler_name = models.TextField()
+    wholesaler_contact_number = models.CharField(max_length=10)
+    wholesaler_address = models.TextField(max_length=100)
+    isRegistrationComplete = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.name
+        return self.wholesaler_name
 
 
 class Retailer(models.Model):

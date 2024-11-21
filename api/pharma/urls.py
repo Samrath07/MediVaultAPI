@@ -24,11 +24,12 @@
 #     path('', include(router.urls)), 
 # ]
 from django.urls import path
-from .views import InventoryView, OrderCreateView, WholesalerInventoryView,WholesalerListView,MedicineListView
+from .views import InventoryView, OrderCreateView, WholesalerInventoryView,WholesalerListView,MedicineListView,WholesalerRegistrationView
 
 urlpatterns = [
     # path('inventory/', WholesalerInventoryView.as_view(), name='view_inventory'),
     path('wholesalers/', WholesalerListView.as_view(), name='wholesaler_list'),
+    path('wholesalers/profile', WholesalerRegistrationView.as_view(), name="wholesaler_profile"),
     path('wholesalers/<int:wholesaler_id>/medicines/', MedicineListView.as_view(), name='wholesaler_medicines'),
     path('inventory/add/', WholesalerInventoryView.as_view(), name='add_inventory'),
     path('inventory/update/<int:medicine_id>/', WholesalerInventoryView.as_view(), name='update_inventory'),

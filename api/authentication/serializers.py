@@ -1,23 +1,3 @@
-# from rest_framework import serializers
-# from .models import User
-# from django.contrib.auth.hashers import make_password
-
-# class UserRegistrationSerializer(serializers.ModelSerializer):
-#     password = serializers.CharField(write_only=True)
-
-#     class Meta:
-#         model = User
-#         fields = ['id', 'email', 'password', 'role']
-
-#     def create(self, validated_data):
-#         validated_data['password'] = make_password(validated_data['password'])
-#         return super().create(validated_data)
-
-
-# class UserLoginSerializer(serializers.Serializer):
-#     email = serializers.EmailField()
-#     password = serializers.CharField(write_only=True)
-# auth/serializers.py
 from rest_framework import serializers
 from .models import CustomUser
 from django.contrib.auth import authenticate
@@ -27,14 +7,14 @@ class RegisterSerializer(serializers.Serializer):
     email = serializers.CharField(min_length = 10)
     password = serializers.CharField(write_only = True, min_length = 5)
     role = serializers.CharField()
-    name = serializers.CharField(min_length = 8)
-    contact_number = serializers.IntegerField()
-    address = serializers.CharField(min_length = 10)
+    # name = serializers.CharField(min_length = 8)
+    # contact_number = serializers.IntegerField()
+    # address = serializers.CharField(min_length = 10)
 
 
     class Meta:
         model = CustomUser
-        fields = ['username','email', 'password', 'role', 'name', 'contact_number', 'address']
+        fields = ['username','email', 'password', 'role']
 
     def create(self, validated_data):
         user = CustomUser.objects.create_user(
@@ -42,9 +22,9 @@ class RegisterSerializer(serializers.Serializer):
             email=validated_data['email'],
             password=validated_data['password'],
             role=validated_data['role'],
-            name=validated_data['name'],
-            contact_number=validated_data['contact_number'],
-            address=validated_data['address']
+            # name=validated_data['name'],
+            # contact_number=validated_data['contact_number'],
+            # address=validated_data['address']
         )
         return user
 

@@ -107,9 +107,9 @@ class LoginView(APIView):
                 "user": {
                     "email": user.email,
                     "role": user.role,
-                    "name": user.name,
-                    "contact_number": user.contact_number,
-                    "address": user.address,
+                    # "name": user.name,
+                    # "contact_number": user.contact_number,
+                    # "address": user.address,
                 }
             }, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
